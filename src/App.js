@@ -1,25 +1,34 @@
-import logo from './logo.svg';
 import './App.css';
+import {Routes, Route} from 'react-router-dom'
+import HomePage from './pages/HomePage';
+import SignUp from './pages/SignUp';
+import LogIn from './pages/LogIn';
+import Profile from './pages/Profile';
+import Game from './pages/Game';
+import IsPrivate from './components/IsPrivate';
+import IsAnonymous from './components/IsAnonymous'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Routes>
+        <Route path='/' element={<HomePage />}> </Route>
+        <Route path='/auth/signup' element={<SignUp />}> </Route>
+        <Route path='/auth/login' element=
+        {
+          <IsAnonymous>
+            <LogIn />
+          </IsAnonymous> }> 
+          </Route>
+        <Route path='/profile' element=
+        {
+          <IsPrivate>
+            <Profile /> 
+          </IsPrivate> }> </Route>
+        <Route path='/game' element={<Game />}> </Route>
+      </Routes>
     </div>
-  );
+  )
 }
 
 export default App;

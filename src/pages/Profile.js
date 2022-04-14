@@ -19,7 +19,7 @@ const Profile = () => {
       }
       getUserInfo()
       console.log('games:', gamesInfo, 'user:', userInfo)
-    }, [])
+    })
     
   return (
     <div>
@@ -43,7 +43,7 @@ const Profile = () => {
         </div>
       </div>
 
-      <Link to='/profile/game'> Create new game </Link>
+      <Link to='/gamecreation'> Create new game </Link>
     </div>
   )
 }

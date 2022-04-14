@@ -4,9 +4,10 @@ import HomePage from './pages/HomePage';
 import SignUp from './pages/SignUp';
 import LogIn from './pages/LogIn';
 import Profile from './pages/Profile';
-import Game from './pages/Game';
+import ViewGame from './pages/ViewGame';
 import IsPrivate from './components/IsPrivate';
 import IsAnonymous from './components/IsAnonymous'
+import CreateGame from './pages/CreateGame';
 
 function App() {
 
@@ -26,12 +27,12 @@ function App() {
           <IsPrivate>
             <Profile />
           </IsPrivate> }/>
-          <Route path='/game' element={
+          <Route path='/gamecreation' element={
             <IsPrivate>
-              <Game />
+              <CreateGame/>
             </IsPrivate>
           }/>
-        <Route path='/game/:id' element={<Game />}/>
+        <Route path={`/game/:gameId`} element={<ViewGame />}/>
       </Routes>
     </div>
   )

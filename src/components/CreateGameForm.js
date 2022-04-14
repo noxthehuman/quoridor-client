@@ -1,29 +1,33 @@
 import axios from 'axios'
-//import { useState } from 'react'
-import { Navigate } from 'react-router-dom'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { API_URL } from '../consts'
 
-const CreateGameForm = ({username, setUsername, boardSize, setBoardSize, walls, setWalls, setForm}) => {
+const CreateGameForm = () => {
+    const [username, setUsername] = useState('')
+    const [boardSize, setBoardSize] = useState(9)
+    const [walls, setWalls] = useState(10)
 
     const handleBlack = (e) => setUsername(e.target.value)
     const handleBoard = (e) => setBoardSize(e.target.value)
     const handleWalls = (e) => setWalls(e.target.value)
-
+    let navigate = useNavigate()
     
     const createGame = (e) => {
         e.preventDefault()
-
+        
         const create = async () => {
             try {
                 const requestBody = {username, boardSize, walls}
                 const storedToken = localStorage.getItem('authToken')
-                await axios.post(`${API_URL}/game`, requestBody, {headers: { Authorization: `Bearer ${storedToken}`} })
+                const response = await axios.post(`${API_URL}/game`, requestBody, {headers: { Authorization: `Bearer ${storedToken}`} })
+                console.log(response.data.game)
+                navigate(`/game/${response.data.game._id}`)
             } catch (err) {
                 console.error(err)            
             }       
         }
         create()
-        setForm(false)
     }
 
   return (

@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import CreateGameForm from '../components/CreateGameForm'
 import { API_URL } from '../consts'
 
 
@@ -44,7 +43,7 @@ const Profile = () => {
         </div>
       </div>
 
-      <Link to='/profile/newgame'> Create new game </Link>
+      <Link to='/profile/game'> Create new game </Link>
     </div>
   )
 }

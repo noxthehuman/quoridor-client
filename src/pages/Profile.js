@@ -19,7 +19,7 @@ const Profile = () => {
       }
       getUserInfo()
       console.log('games:', gamesInfo, 'user:', userInfo)
-    })
+    }, [])
     
   return (
     <div>

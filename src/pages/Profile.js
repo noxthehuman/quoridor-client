@@ -27,6 +27,7 @@ const Profile = () => {
         <p> Username: {userInfo.username} </p>
         <p> Email: {userInfo.email} </p>
       </div>
+        <Link to='/gamecreation'> Create new game </Link>
 
       <div>
         <h4> Games </h4>
@@ -43,7 +44,6 @@ const Profile = () => {
         </div>
       </div>
 
-      <Link to='/gamecreation'> Create new game </Link>
     </div>
   )
 }

@@ -1,4 +1,5 @@
 //import { useParams } from "react-router-dom"
+import Board from '../components/Board'
 
 const ViewGame = () => {
 
@@ -9,14 +10,7 @@ const ViewGame = () => {
         <h1> Game </h1>
         
         <div>
-            <div className='grid'>
-                <div className='cell'>
-                
-
-                </div>
-
-              </div>
-
+        <Board /> 
         </div>
 
     </div>

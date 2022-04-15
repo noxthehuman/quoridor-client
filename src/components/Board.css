@@ -1,0 +1,37 @@
+.grid {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+}
+
+.element {
+    display:flex;
+}
+
+.cell {
+    flex: 1;
+    aspect-ratio: 1;
+    justify-self: stretch;
+    background-color: blue;
+}
+
+.Vspace {
+    flex: 1;
+    aspect-ratio: 1;
+    justify-self: stretch;
+    background-color: aqua;
+}
+
+.Hspace {
+    flex: 1;
+    aspect-ratio: 1;
+    justify-self: stretch;
+    background-color: aqua;
+}
+
+.space {
+    flex: 1;
+}

@@ -1,10 +1,6 @@
 .grid {
     display: grid;
-    margin: 0;
-    padding: 0;
-    align-items: center;
-    justify-content: center;
-    gap: 0;
+    grid-template-columns: 20%;
 }
 
 .element {
@@ -21,17 +17,43 @@
 .Vspace {
     flex: 1;
     aspect-ratio: 1;
-    justify-self: stretch;
     background-color: aqua;
 }
 
 .Hspace {
     flex: 1;
     aspect-ratio: 1;
-    justify-self: stretch;
     background-color: aqua;
 }
 
+/* 
+.Hspace {
+    gap: 0;
+    margin:0 ;
+    padding: 0;
+    flex: 1;
+    display:inline;
+    width: 100%;
+    height: 20%;
+    background-color: aqua;
+} */
+
+
 .space {
     flex: 1;
+}
+
+.Wpawn {
+    flex: 1;
+    aspect-ratio: 1;
+    background-color: red;
+    border-radius: 50%;
+}
+
+.Bpawn {
+    flex: 1;
+    aspect-ratio: 1;
+    background-color: rgb(238, 222, 5);
+    border-radius: 50%;
+
 }

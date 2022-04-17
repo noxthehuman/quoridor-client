@@ -16,14 +16,28 @@ const Board = () => {
     const {gameId} = useParams()
 
     const handleClick = (e) => {
+        const type = e.target.classList;
+        const idx = +e.target.dataset.index;
+        if (idx % boardSize && type.contains("Hspace")) {
+            setWalls([...walls, idx]);
+        }
+        if (idx > boardSize && type.contains("Vspace")) {
+            setWalls([...walls, idx]);
+        }
         if (turn === 'white') {
-            setPosW(+e.target.dataset.index);
+            if (type.contains("cell")) {
+                setPosW(idx);
+            }
             setTurn('black')
         }
         if (turn === 'black') {
-            setPosB(+e.target.dataset.index);
+            if (type.contains("cell")) {
+                setPosB(idx);
+            }
             setTurn('white');
         }
+        console.log(walls)
+        console.log(type)
     }
 
     useEffect(() => {
@@ -34,21 +48,17 @@ const Board = () => {
         isValid();
     }, [])
     
-
     return (
-        <div className='grid' onClick={handleClick} style={{gridTemplateColumns: `repeat(${2*boardSize+1}, 1fr)`}}>
+        <div className='grid' onClick={handleClick} style={{gridTemplateColumns: `repeat(${2*boardSize-1}, 1fr)`}}>
             {tiles.map(x => 
             <>
                 {!(~~((x-1) / boardSize) % 2) && <>
-                <div className='Vspace' data-index={x}> </div>
-                <div className="cell" data-index={x}> {x === posW? <div className="Wpawn"> </div> : x === posB? <div className="Bpawn"> </div> : ""}</div>
-
-                {!(x % boardSize) && <div className='Vspace' data-index={x}> </div>}
+                <div className="cell" data-index={x}> {x === posW? <div className="Wpawn">{x} </div> : x === posB? <div className="Bpawn"> {x}</div> : `${x}`}</div>
+                {!!(x % boardSize) && (walls.includes(x) || walls.includes(x + 2 * boardSize) ? <div className='wall'> {x}</div> : <div className='Vspace' data-index={x}> {x}</div>)}
                 </>}
                 {!!(~~((x-1) / boardSize) % 2) && <>
-                <div className='space'> </div>
-                <div className='Hspace' data-index={x}> </div>
-                {!(x % boardSize) && <div className='space'> </div>}
+                {walls.includes(x) || walls.includes(x-1) ? <div className='wall'> {x}</div> : <div className='Hspace' data-index={x}>{x} </div>}
+                {!!(x % boardSize) && (walls.includes(x) || walls.includes(x + boardSize) ? <div className='wall'> {x}</div> : <div className='space'>{x} </div>)}
                 </>}
             </>
             )}        

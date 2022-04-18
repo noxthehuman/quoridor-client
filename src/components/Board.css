@@ -7,20 +7,21 @@
     display:flex;
 }
 
-.cell {
+.move {
     flex: 1;
     aspect-ratio: 1;
     justify-self: stretch;
     background-color: blue;
 }
 
-.Vspace {
+
+.vertical {
     flex: 1;
     aspect-ratio: 1;
     background-color: aqua;
 }
 
-.Hspace {
+.horizontal {
     flex: 1;
     aspect-ratio: 1;
     background-color: aqua;

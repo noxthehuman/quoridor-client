@@ -6,24 +6,57 @@ import {API_URL} from "../consts"
 
 const Board = () => {
 
-    const boardSize = 5;
+    const boardSize = 9;
     const nbElements = boardSize * (2 * boardSize - 1);
     const tiles = [...Array(nbElements + 1).keys()].splice(1)
     const [posB, setPosB] = useState(~~(boardSize / 2) + 1);
     const [posW, setPosW] = useState(nbElements - ~~(boardSize / 2));
+    const [order, setOrder] = useState(1);
     const [turn, setTurn] = useState('white');
     const [walls, setWalls] = useState([]);
     const {gameId} = useParams()
 
-    const handleClick = (e) => {
+    const handleClick = async (e) => {
+        const type = e.target.className;
+        if (type === "space") {return};
+        const idx = +e.target.dataset.index;
+        console.log("idx", idx)
+        const move = {
+            x: (type === "move" || type === "vertical") ? idx % (2 * boardSize) : (idx + boardSize) % (2 * boardSize),
+            y: (type === "move" || type === "vertical") ? boardSize - ~~(idx / (2 * boardSize)) : boardSize - ~~((idx + boardSize) / (2 * boardSize)),
+            action: type,
+            order: order,
+            player: turn,
+            game: gameId
+        }
+        console.log("move",move);
+        const {data} = await axios.post(`${API_URL}/game/${gameId}`, move, {headers: {Authorization: `Bearer ${localStorage.getItem('authToken')}`}});
+        console.log("data", data);
+        if (!data?.action) {
+            console.log("invalid move");
+            return;
+        }
+        if (type === "horizontal" ||  type === "vertical")
+            setWalls([...walls, idx]);
+        // if (idx % boardSize && type === "horizontal") {
+        //     setWalls([...walls, idx]);
+        // }
+        // if (idx > boardSize && type === "vertical") {
+        //     setWalls([...walls, idx]);
+        // }
         if (turn === 'white') {
-            setPosW(+e.target.dataset.index);
+            if (type === "move") {
+                setPosW(idx);
+            }
             setTurn('black')
         }
         if (turn === 'black') {
-            setPosB(+e.target.dataset.index);
+            if (type === "move") {
+                setPosB(idx);
+            }
             setTurn('white');
         }
+        setOrder(order + 1);
     }
 
     useEffect(() => {
@@ -34,27 +67,22 @@ const Board = () => {
         isValid();
     }, [])
     
-
     return (
-        <div className='grid' onClick={handleClick} style={{gridTemplateColumns: `repeat(${2*boardSize+1}, 1fr)`}}>
+        <div className='grid' onClick={handleClick} style={{gridTemplateColumns: `repeat(${2*boardSize-1}, 1fr)`}}>
             {tiles.map(x => 
             <>
                 {!(~~((x-1) / boardSize) % 2) && <>
-                <div className='Vspace' data-index={x}> </div>
-                <div className="cell" data-index={x}> {x === posW? <div className="Wpawn"> </div> : x === posB? <div className="Bpawn"> </div> : ""}</div>
-
-                {!(x % boardSize) && <div className='Vspace' data-index={x}> </div>}
+                <div className="move" data-index={x}> {x === posW? <div className="Wpawn" data-index={x}>{x} </div> : x === posB? <div className="Bpawn" data-index={x}> {x}</div> : `${x}`}</div>
+                {!!(x % boardSize) && (walls.includes(x) || walls.includes(x + 2 * boardSize) ? <div className='wall'> {x}</div> : <div className='vertical' data-index={x}> {x}</div>)}
                 </>}
                 {!!(~~((x-1) / boardSize) % 2) && <>
-                <div className='space'> </div>
-                <div className='Hspace' data-index={x}> </div>
-                {!(x % boardSize) && <div className='space'> </div>}
+                {walls.includes(x) || walls.includes(x-1) ? <div className='wall'> {x}</div> : <div className='horizontal' data-index={x}>{x} </div>}
+                {!!(x % boardSize) && (walls.includes(x) || walls.includes(x + boardSize) ? <div className='wall'> {x}</div> : <div className='space'>{x} </div>)}
                 </>}
             </>
             )}        
         </div>
     )
 }
-
 
 export default Board

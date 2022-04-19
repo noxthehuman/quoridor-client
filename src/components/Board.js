@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { API_URL } from "../consts"
 
-const Board = () => {
+const Board = ({turn, setTurn}) => {
 
     const boardSize = 9;
     const nbElements = boardSize * (2 * boardSize - 1);
@@ -12,7 +12,6 @@ const Board = () => {
     const [posB, setPosB] = useState(~~(boardSize / 2) + 1);
     const [posW, setPosW] = useState(nbElements - ~~(boardSize / 2));
     const [order, setOrder] = useState(1);
-    const [turn, setTurn] = useState('white');
     const [walls, setWalls] = useState([]);
     const { gameId } = useParams()
 

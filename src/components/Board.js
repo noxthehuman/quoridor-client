@@ -38,12 +38,6 @@ const Board = () => {
         }
         if (type === "horizontal" ||  type === "vertical")
             setWalls([...walls, idx]);
-        // if (idx % boardSize && type === "horizontal") {
-        //     setWalls([...walls, idx]);
-        // }
-        // if (idx > boardSize && type === "vertical") {
-        //     setWalls([...walls, idx]);
-        // }
         if (turn === 'white') {
             if (type === "move") {
                 setPosW(idx);
@@ -58,21 +52,13 @@ const Board = () => {
         }
         setOrder(order + 1);
     }
-
-    useEffect(() => {
-        const isValid = async () => {
-            const data = await axios.post(`${API_URL}/game/${gameId}`);
-            console.log(data);
-        }
-        isValid();
-    }, [])
     
     return (
         <div className='grid' onClick={handleClick} style={{gridTemplateColumns: `repeat(${2*boardSize-1}, 1fr)`}}>
             {tiles.map(x => 
             <>
                 {!(~~((x-1) / boardSize) % 2) && <>
-                <div className="move" data-index={x}> {x === posW? <div className="Wpawn" data-index={x}>{x} </div> : x === posB? <div className="Bpawn" data-index={x}> {x}</div> : `${x}`}</div>
+                <div className="move" data-index={x}> {x === posW? <div className="white" data-index={x}>{x} </div> : x === posB? <div className="black" data-index={x}> {x}</div> : `${x}`}</div>
                 {!!(x % boardSize) && (walls.includes(x) || walls.includes(x + 2 * boardSize) ? <div className='wall'> {x}</div> : <div className='vertical' data-index={x}> {x}</div>)}
                 </>}
                 {!!(~~((x-1) / boardSize) % 2) && <>

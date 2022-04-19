@@ -44,14 +44,14 @@
     flex: 1;
 }
 
-.Wpawn {
+.white {
     flex: 1;
     aspect-ratio: 1;
     background-color: red;
     border-radius: 50%;
 }
 
-.Bpawn {
+.black {
     flex: 1;
     aspect-ratio: 1;
     background-color: rgb(238, 222, 5);

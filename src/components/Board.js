@@ -54,16 +54,16 @@ const Board = ({turn, setTurn}) => {
     }
 
     return (
-        <div className='grid' onClick={handleClick} style={{ gridTemplateColumns: `repeat(${2 * boardSize - 1}, 1fr)` }}>
+        <div className='grid' onClick={handleClick} style={{ gridTemplateColumns: `repeat(${boardSize - 1}, 60px 15px) 60px` , gridTemplateRows: `repeat(${boardSize - 1}, 60px 15px) 60px` }}>
             {tiles.map(x =>
                 <>
                     {!(~~((x - 1) / boardSize) % 2) && <>
-                        <div className="move" data-index={x}> {x === posW ? <div className="white" data-index={x}>{x} </div> : x === posB ? <div className="black" data-index={x}> {x}</div> : `${x}`}</div>
-                        {!!(x % boardSize) && (walls.includes(x) || walls.includes(x + 2 * boardSize) ? <div className='wall'> {x}</div> : <div className='vertical' data-index={x}> {x}</div>)}
+                        <div className="move" data-index={x}> {x === posW ? <div className="white" data-index={x}> </div> : x === posB ? <div className="black" data-index={x}> </div> : ``}</div>
+                        {!!(x % boardSize) && (walls.includes(x) || walls.includes(x + 2 * boardSize) ? <div className='wall'> </div> : <div className='vertical' data-index={x}> </div>)}
                     </>}
                     {!!(~~((x - 1) / boardSize) % 2) && <>
-                        {walls.includes(x) || walls.includes(x - 1) ? <div className='wall'> {x}</div> : <div className='horizontal' data-index={x}>{x} </div>}
-                        {!!(x % boardSize) && (walls.includes(x) || walls.includes(x + boardSize) ? <div className='wall'> {x}</div> : <div className='space'>{x} </div>)}
+                        {walls.includes(x) || walls.includes(x - 1) ? <div className='wall'> </div> : <div className='horizontal' data-index={x}> </div>}
+                        {!!(x % boardSize) && (walls.includes(x) || walls.includes(x + boardSize) ? <div className='wall'> </div> : <div className='space'> </div>)}
                     </>}
                 </>
             )}

@@ -1,8 +1,8 @@
 import './Board.css'
 import axios from 'axios';
-import { useState} from 'react';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import {API_URL} from "../consts"
+import { API_URL } from "../consts"
 
 const Board = () => {
 
@@ -14,12 +14,12 @@ const Board = () => {
     const [order, setOrder] = useState(1);
     const [turn, setTurn] = useState('white');
     const [walls, setWalls] = useState([]);
-    const {gameId} = useParams()
+    const { gameId } = useParams()
 
     const handleClick = async (e) => {
         let type = e.target.className;
-        if (type === "space") {return};
-        if (type === "white" || type === "black") {type = "move"};
+        if (type === "space") { return };
+        if (type === "white" || type === "black") { type = "move" };
         const idx = +e.target.dataset.index;
         console.log("idx", idx)
         const move = {
@@ -30,14 +30,14 @@ const Board = () => {
             player: turn,
             game: gameId
         }
-        console.log("move",move);
-        const {data} = await axios.post(`${API_URL}/game/${gameId}`, move, {headers: {Authorization: `Bearer ${localStorage.getItem('authToken')}`}});
+        console.log("move", move);
+        const { data } = await axios.post(`${API_URL}/game/${gameId}`, move, { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } });
         console.log("data", data);
         if (!data?.action) {
             console.log("invalid move");
             return;
         }
-        if (type === "horizontal" ||  type === "vertical")
+        if (type === "horizontal" || type === "vertical")
             setWalls([...walls, idx]);
         if (turn === 'white') {
             if (type === "move") {
@@ -53,21 +53,21 @@ const Board = () => {
         }
         setOrder(order + 1);
     }
-    
+
     return (
-        <div className='grid' onClick={handleClick} style={{gridTemplateColumns: `repeat(${2*boardSize-1}, 1fr)`}}>
-            {tiles.map(x => 
-            <>
-                {!(~~((x-1) / boardSize) % 2) && <>
-                <div className="move" data-index={x}> {x === posW? <div className="white" data-index={x}>{x} </div> : x === posB? <div className="black" data-index={x}> {x}</div> : `${x}`}</div>
-                {!!(x % boardSize) && (walls.includes(x) || walls.includes(x + 2 * boardSize) ? <div className='wall'> {x}</div> : <div className='vertical' data-index={x}> {x}</div>)}
-                </>}
-                {!!(~~((x-1) / boardSize) % 2) && <>
-                {walls.includes(x) || walls.includes(x-1) ? <div className='wall'> {x}</div> : <div className='horizontal' data-index={x}>{x} </div>}
-                {!!(x % boardSize) && (walls.includes(x) || walls.includes(x + boardSize) ? <div className='wall'> {x}</div> : <div className='space'>{x} </div>)}
-                </>}
-            </>
-            )}        
+        <div className='grid' onClick={handleClick} style={{ gridTemplateColumns: `repeat(${2 * boardSize - 1}, 1fr)` }}>
+            {tiles.map(x =>
+                <>
+                    {!(~~((x - 1) / boardSize) % 2) && <>
+                        <div className="move" data-index={x}> {x === posW ? <div className="white" data-index={x}>{x} </div> : x === posB ? <div className="black" data-index={x}> {x}</div> : `${x}`}</div>
+                        {!!(x % boardSize) && (walls.includes(x) || walls.includes(x + 2 * boardSize) ? <div className='wall'> {x}</div> : <div className='vertical' data-index={x}> {x}</div>)}
+                    </>}
+                    {!!(~~((x - 1) / boardSize) % 2) && <>
+                        {walls.includes(x) || walls.includes(x - 1) ? <div className='wall'> {x}</div> : <div className='horizontal' data-index={x}>{x} </div>}
+                        {!!(x % boardSize) && (walls.includes(x) || walls.includes(x + boardSize) ? <div className='wall'> {x}</div> : <div className='space'>{x} </div>)}
+                    </>}
+                </>
+            )}
         </div>
     )
 }

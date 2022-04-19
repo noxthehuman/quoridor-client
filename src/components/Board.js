@@ -1,6 +1,6 @@
 import './Board.css'
 import axios from 'axios';
-import { useEffect, useState} from 'react';
+import { useState} from 'react';
 import { useParams } from 'react-router-dom';
 import {API_URL} from "../consts"
 
@@ -17,8 +17,9 @@ const Board = () => {
     const {gameId} = useParams()
 
     const handleClick = async (e) => {
-        const type = e.target.className;
+        let type = e.target.className;
         if (type === "space") {return};
+        if (type === "white" || type === "black") {type = "move"};
         const idx = +e.target.dataset.index;
         console.log("idx", idx)
         const move = {

@@ -2,7 +2,7 @@ import React from 'react'
 import WhiteCounter from './WhiteCounter';
 import BlackCounter from './BlackCounter';
 
-const Player = ({x,y,posW, posB, handlePlayerClick}) => {
+const Player = ({x,y,posW, posB, handleClick, type}) => {
     let counter
     if(posW.x === x && posW.y === y) {
         counter = <WhiteCounter/>  
@@ -12,7 +12,7 @@ const Player = ({x,y,posW, posB, handlePlayerClick}) => {
         counter = <BlackCounter/>
     }
   return (
-    <div className="move" data-index={x} onClick={() => handlePlayerClick(x, y)}> 
+    <div type='move' className='move' data-index={x} onClick={() => handleClick(x, y, type)}> 
     {counter} 
     </div>
   )

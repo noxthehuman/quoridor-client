@@ -32,16 +32,16 @@ const ViewGame = () => {
   const minutes = getMinutes()
   const hours = getHours()
 
-  useEffect(()=>{
-      let timeoutId = setTimeout(() => {
-        if(isActive) {
-          setTimeElapsed((new Date).getTime() - startTime)
-        }
-      }, 300)
-    if(!isActive) {
-      clearTimeout(timeoutId)
-    }
-  }, [isActive, timeElapsed])
+  // useEffect(()=>{
+  //     let timeoutId = setTimeout(() => {
+  //       if(isActive) {
+  //         setTimeElapsed((new Date).getTime() - startTime)
+  //       }
+  //     }, 300)
+  //   if(!isActive) {
+  //     clearTimeout(timeoutId)
+  //   }
+  // }, [isActive, timeElapsed])
 
   return (
     <div>

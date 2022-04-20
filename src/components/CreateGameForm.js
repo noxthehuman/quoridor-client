@@ -11,6 +11,7 @@ const CreateGameForm = () => {
     const handleBlack = (e) => setUsername(e.target.value)
     const handleBoard = (e) => setBoardSize(e.target.value)
     const handleWalls = (e) => setWalls(e.target.value)
+    
     let navigate = useNavigate()
     
     const createGame = (e) => {

@@ -12,11 +12,13 @@ const Board = ({turn, setTurn, isActive, seconds, minutes, hours}) => {
     const [boardSize, setBoardSize] = useState(0)
     const [posB, setPosB] = useState({x: null, y:null});
     const [posW, setPosW] = useState({x: null, y:null});
-    
+    const [order, setOrder] = useState(1);
+    const [walls, setWalls] = useState([]);
+   
     useEffect(()=> {
         const getGame = async () => {
             const {data} = await axios.get(`${API_URL}/game/${gameId}`,
-            { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } });  
+            { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }});  
             setBoardSize(data.boardSize)
         }
         getGame()
@@ -28,100 +30,82 @@ const Board = ({turn, setTurn, isActive, seconds, minutes, hours}) => {
         
     }, [boardSize])
 
-    const [order, setOrder] = useState(1);
-    const [walls, setWalls] = useState([]);
 
-    const handlePlayerClick = async (x, y) => {
-
-       const makeMoveData = await makeMoveInBack({
-            x, y,
-            action: "move",
-            "order": null,
-            "time": null,
-            player: turn
-        
-        })
-
-        if (!makeMoveData?.action) {
-            console.log("invalid move");
-            return;
-        }
-
-        if(turn === 'white') {
-            setPosW({x, y})
-            setTurn('black')
-        }
-        if(turn === 'black') {
-            setPosB({x, y})
-            setTurn('white')
-        }
-        
-        setOrder(order + 1)
-    }
-
-    const makeMoveInBack = async (move) => {
-        const { data } = await axios.post(`${API_URL}/game/${gameId}`, move,
-        { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } });
-        return data
-    }
-
-    const handleClick = async (e) => {
-        let type = e.target.className;
+    const handleClick = async (x, y, type) => {
         if (type === "space") { return };
-        if (type === "white" || type === "black") { type = "move" };
-        const idx = +e.target.dataset.index;
-        //console.log("idx", idx)
-        const move = {
-            x: (type === "move" || type === "vertical") ? idx % (2 * boardSize) :
-             (idx + boardSize) % (2 * boardSize),
-            y: (type === "move" || type === "vertical") ? boardSize - ~~(idx / (2 * boardSize)) :
-             boardSize - ~~((idx + boardSize) / (2 * boardSize)),
+       
+        const moveData = {
+            x: x + 1,
+            y: (type === 'vertical' || type ==='move') ? boardSize - y : (boardSize - y) - 1,
             action: type,
             order: order,
             time: `${hours}:${minutes}:${seconds}`,
             player: turn,
             game: gameId
         }
+        
 
-        if (turn === 'white') {
-            if (type === "move") {
-                setPosW(idx);
+        const makeMoveData = await makeMoveInBack(moveData)
+
+        if(!makeMoveData?.action) {
+            console.log('invalid move')
+            return
+        }
+
+        if(type=== 'vertical') {
+            setWalls([...walls, {x: x, y: y - 1}, {x: x, y: y}])
+        }
+        if(type==='horizontal') {
+            setWalls([...walls, {x: x + 1, y: y }, {x: x, y: y}])
+        }
+
+        if(turn === 'white') {
+            if (moveData.action === 'move'){
+                setPosW({x, y})
             }
-            if(move.y === boardSize){
+            
+            if(y === 0){
                 isActive = false
-                const {data} = await axios.put(`${API_URL}/game/${gameId}`, move,
+                const {data} = await axios.put(`${API_URL}/game/${gameId}`, moveData,
                 { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } });
-                console.log('win', data)
             }
             setTurn('black')
         }
-        if (turn === 'black') {
-            if (type === "move") {
-                setPosB(idx);
+        if(turn === 'black') {
+            if (moveData.action === 'move'){
+                setPosB({x, y})
             }
-            if(move.y === 1){
+            if(y === boardSize - 1){
                 isActive = false
-                const {data} = await axios.put(`${API_URL}/game/${gameId}`, move,
-                { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } });
-                console.log('win', data)
+                const {data} = await axios.put(`${API_URL}/game/${gameId}`, makeMoveData,
+                { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } })
             }
-            setTurn('white');
+            setTurn('white')
         }
-        ;
+        setOrder(order + 1)
     }
 
+    const makeMoveInBack = async (move) => {
+        const { data } = await axios.post(`${API_URL}/game/${gameId}`, move,
+        { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }});
+        return data
+    }
+
+    console.log(walls)
     const rows = []
 
     for(let i=0; i<boardSize; i++) {
-        rows.push(<Row posB={posB} posW={posW} boardSize={boardSize} rowNumber={i} key={`${i}, row`} handlePlayerClick={handlePlayerClick}/>)
-        rows.push(<HorizontalRow  boardSize={boardSize} key={`${i}, horizontalRow`}/>)
+        rows.push(<Row posB={posB} posW={posW} boardSize={boardSize} rowNumber={i} walls={walls} key={`${i}, row`} 
+        handleClick={handleClick}/>)
+        rows.push(<HorizontalRow boardSize={boardSize} rowNumber={i} walls={walls} key={`${i}, horizontalRow`}
+        handleClick={handleClick}/>)
     }
 
     return (
         <div className='grid' style={{ gridTemplateColumns: 
         `repeat(${boardSize - 1}, 60px 15px) 60px` , gridTemplateRows:
          `repeat(${boardSize - 1}, 60px 15px) 60px` }}>
-        {rows}
+             {rows}
         </div>
     )
 }

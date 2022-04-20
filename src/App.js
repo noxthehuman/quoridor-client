@@ -12,7 +12,7 @@ import CreateGame from './pages/CreateGame';
 function App() {
 
   return (
-    <div>
+    <div className='App'>
       <Routes>
         <Route path='/' element={<HomePage />}/>
         <Route path='/auth/signup' element={<SignUp />}/>

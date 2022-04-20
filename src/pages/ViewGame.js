@@ -34,13 +34,11 @@ const ViewGame = () => {
 
   return (
     <div>
+      <div> 
         <h1> {turn}'s turn </h1>
         <p key={timeElapsed}> {getHours()}:{getMinutes()}:{getSeconds()} </p>
-        
-        <div>
-        <Board  turn={turn} setTurn={setTurn} /> 
-        </div>
-
+      </div>
+      <Board  turn={turn} setTurn={setTurn} /> 
     </div>
   )
 }

@@ -54,7 +54,8 @@ const Board = ({turn, setTurn}) => {
     }
 
     return (
-        <div className='grid' onClick={handleClick} style={{ gridTemplateColumns: `repeat(${boardSize - 1}, 60px 15px) 60px` , gridTemplateRows: `repeat(${boardSize - 1}, 60px 15px) 60px` }}>
+        <div className='board'> 
+        <div className='grid' onClick={handleClick} style={{ gridTemplateColumns: `repeat(${boardSize - 1}, 5fr 1fr) 5fr` , gridTemplateRows: `repeat(${boardSize - 1}, 5fr 1fr) 5fr` }}>
             {tiles.map(x =>
                 <>
                     {!(~~((x - 1) / boardSize) % 2) && <>
@@ -67,6 +68,7 @@ const Board = ({turn, setTurn}) => {
                     </>}
                 </>
             )}
+        </div>
         </div>
     )
 }

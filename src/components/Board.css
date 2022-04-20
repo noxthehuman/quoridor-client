@@ -15,14 +15,12 @@
 }
 
 .white {
-    flex: 1;
     aspect-ratio: 1;
     background-color: rgb(255, 255, 255);
     border-radius: 50%;
 }
 
 .black {
-    flex: 1;
     aspect-ratio: 1;
     background-color: rgb(0, 0, 0);
     border-radius: 50%;

@@ -1,46 +1,97 @@
 import './Board.css'
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { API_URL } from "../consts"
+import Row from './Row';
+import HorizontalRow from './HorizontalRow';
 
-const Board = ({turn, setTurn}) => {
+const Board = ({turn, setTurn, isActive, seconds, minutes, hours}) => {
+    
+    const { gameId } = useParams()
+    const [boardSize, setBoardSize] = useState(0)
+    const [posB, setPosB] = useState({x: null, y:null});
+    const [posW, setPosW] = useState({x: null, y:null});
+    
+    useEffect(()=> {
+        const getGame = async () => {
+            const {data} = await axios.get(`${API_URL}/game/${gameId}`,
+            { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } });  
+            setBoardSize(data.boardSize)
+        }
+        getGame()
+    }, [])
+    
+    useEffect(()=> {
+        setPosB({y: 0, x: Math.floor(boardSize/2)})
+        setPosW({y: (boardSize -1), x: Math.floor(boardSize/2)})
+        
+    }, [boardSize])
 
-    const boardSize = 9;
-    const nbElements = boardSize * (2 * boardSize - 1);
-    const tiles = [...Array(nbElements + 1).keys()].splice(1)
-    const [posB, setPosB] = useState(~~(boardSize / 2) + 1);
-    const [posW, setPosW] = useState(nbElements - ~~(boardSize / 2));
     const [order, setOrder] = useState(1);
     const [walls, setWalls] = useState([]);
-    const { gameId } = useParams()
+
+    const handlePlayerClick = async (x, y) => {
+
+       const makeMoveData = await makeMoveInBack({
+            x, y,
+            action: "move",
+            "order": null,
+            "time": null,
+            player: turn
+        
+        })
+
+        if (!makeMoveData?.action) {
+            console.log("invalid move");
+            return;
+        }
+
+        if(turn === 'white') {
+            setPosW({x, y})
+            setTurn('black')
+        }
+        if(turn === 'black') {
+            setPosB({x, y})
+            setTurn('white')
+        }
+        
+        setOrder(order + 1)
+    }
+
+    const makeMoveInBack = async (move) => {
+        const { data } = await axios.post(`${API_URL}/game/${gameId}`, move,
+        { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } });
+        return data
+    }
 
     const handleClick = async (e) => {
         let type = e.target.className;
         if (type === "space") { return };
         if (type === "white" || type === "black") { type = "move" };
         const idx = +e.target.dataset.index;
-        console.log("idx", idx)
+        //console.log("idx", idx)
         const move = {
-            x: (type === "move" || type === "vertical") ? idx % (2 * boardSize) : (idx + boardSize) % (2 * boardSize),
-            y: (type === "move" || type === "vertical") ? boardSize - ~~(idx / (2 * boardSize)) : boardSize - ~~((idx + boardSize) / (2 * boardSize)),
+            x: (type === "move" || type === "vertical") ? idx % (2 * boardSize) :
+             (idx + boardSize) % (2 * boardSize),
+            y: (type === "move" || type === "vertical") ? boardSize - ~~(idx / (2 * boardSize)) :
+             boardSize - ~~((idx + boardSize) / (2 * boardSize)),
             action: type,
             order: order,
+            time: `${hours}:${minutes}:${seconds}`,
             player: turn,
             game: gameId
         }
-        console.log("move", move);
-        const { data } = await axios.post(`${API_URL}/game/${gameId}`, move, { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } });
-        console.log("data", data);
-        if (!data?.action) {
-            console.log("invalid move");
-            return;
-        }
-        if (type === "horizontal" || type === "vertical")
-            setWalls([...walls, idx]);
+
         if (turn === 'white') {
             if (type === "move") {
                 setPosW(idx);
+            }
+            if(move.y === boardSize){
+                isActive = false
+                const {data} = await axios.put(`${API_URL}/game/${gameId}`, move,
+                { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } });
+                console.log('win', data)
             }
             setTurn('black')
         }
@@ -48,25 +99,29 @@ const Board = ({turn, setTurn}) => {
             if (type === "move") {
                 setPosB(idx);
             }
+            if(move.y === 1){
+                isActive = false
+                const {data} = await axios.put(`${API_URL}/game/${gameId}`, move,
+                { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } });
+                console.log('win', data)
+            }
             setTurn('white');
         }
-        setOrder(order + 1);
+        ;
+    }
+
+    const rows = []
+
+    for(let i=0; i<boardSize; i++) {
+        rows.push(<Row posB={posB} posW={posW} boardSize={boardSize} rowNumber={i} key={`${i}, row`} handlePlayerClick={handlePlayerClick}/>)
+        rows.push(<HorizontalRow  boardSize={boardSize} key={`${i}, horizontalRow`}/>)
     }
 
     return (
-        <div className='grid' onClick={handleClick} style={{ gridTemplateColumns: `repeat(${boardSize - 1}, 60px 15px) 60px` , gridTemplateRows: `repeat(${boardSize - 1}, 60px 15px) 60px` }}>
-            {tiles.map(x =>
-                <>
-                    {!(~~((x - 1) / boardSize) % 2) && <>
-                        <div className="move" data-index={x}> {x === posW ? <div className="white" data-index={x}> </div> : x === posB ? <div className="black" data-index={x}> </div> : ``}</div>
-                        {!!(x % boardSize) && (walls.includes(x) || walls.includes(x + 2 * boardSize) ? <div className='wall'> </div> : <div className='vertical' data-index={x}> </div>)}
-                    </>}
-                    {!!(~~((x - 1) / boardSize) % 2) && <>
-                        {walls.includes(x) || walls.includes(x - 1) ? <div className='wall'> </div> : <div className='horizontal' data-index={x}> </div>}
-                        {!!(x % boardSize) && (walls.includes(x) || walls.includes(x + boardSize) ? <div className='wall'> </div> : <div className='space'> </div>)}
-                    </>}
-                </>
-            )}
+        <div className='grid' style={{ gridTemplateColumns: 
+        `repeat(${boardSize - 1}, 60px 15px) 60px` , gridTemplateRows:
+         `repeat(${boardSize - 1}, 60px 15px) 60px` }}>
+        {rows}
         </div>
     )
 }

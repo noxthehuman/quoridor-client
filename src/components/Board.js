@@ -43,7 +43,6 @@ const Board = ({turn, setTurn, isActive, seconds, minutes, hours}) => {
             player: turn,
             game: gameId
         }
-        
 
         const makeMoveData = await makeMoveInBack(moveData)
 
@@ -52,11 +51,12 @@ const Board = ({turn, setTurn, isActive, seconds, minutes, hours}) => {
             return
         }
 
+        console.log(type)
         if(type=== 'vertical') {
-            setWalls([...walls, {x: x, y: y - 1}, {x: x, y: y}])
+            setWalls([...walls, {x: x, y: y, type:'vertical'}, {x: x, y: y - 1, type:'vertical'}])
         }
         if(type==='horizontal') {
-            setWalls([...walls, {x: x + 1, y: y }, {x: x, y: y}])
+            setWalls([...walls, {x: x, y: y, type:'horizontal'}, {x: x+1, y: y, type:'horizontal'}])
         }
 
         if(turn === 'white') {
@@ -91,7 +91,6 @@ const Board = ({turn, setTurn, isActive, seconds, minutes, hours}) => {
         return data
     }
 
-    console.log(walls)
     const rows = []
 
     for(let i=0; i<boardSize; i++) {

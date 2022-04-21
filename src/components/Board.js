@@ -27,7 +27,7 @@ const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
             setWallsB(data.walls);
         }
         getGame()
-    }, [])
+    }, [gameId])
     
     useEffect(()=> {
         setPosB({y: 0, x: Math.floor(boardSize/2)})

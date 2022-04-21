@@ -27,7 +27,6 @@ const LogIn = () => {
     axios
       .post(`${API_URL}/auth/login`, requestBody)
       .then((response) => {
-        console.log('JWT RETURNED', response.data)
 
         storeToken(response.data.authToken)
         authenticateUser()

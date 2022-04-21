@@ -38,8 +38,6 @@ const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
 
     const handleClick = async (x, y, type) => {
 
-        console.log("walls",wallsW)
-
         if (type === "space") { return };
        
         const moveData = {
@@ -59,7 +57,6 @@ const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
             return
         }
 
-        console.log(type)
         if(type=== 'vertical') {
             setWalls([...walls, {x: x, y: y, type:'vertical'}, {x: x, y: y - 1, type:'vertical'}])
         }
@@ -78,7 +75,7 @@ const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
                 setIsActive = false
                 await axios.put(`${API_URL}/game/${gameId}`, moveData,
                 { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } });
-                navigate('/profile')
+                return navigate('/profile')
             }
             setTurn('black')
         }
@@ -92,7 +89,7 @@ const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
                 setIsActive = false
                 await axios.put(`${API_URL}/game/${gameId}`, moveData,
                 { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } });
-                navigate('/profile')
+                return navigate('/profile')
             }
             setTurn('white')
         }

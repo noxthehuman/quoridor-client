@@ -77,7 +77,7 @@ const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
                 setIsActive = false
                 await axios.put(`${API_URL}/game/${gameId}`, moveData,
                 { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } });
-                <Redirect to='/profile'/>
+                return <Redirect to='/profile'/>
             }
             setTurn('black')
         }
@@ -91,7 +91,7 @@ const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
                 setIsActive = false
                 await axios.put(`${API_URL}/game/${gameId}`, moveData,
                 { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } });
-                <Redirect to='/profile'/>
+                return <Redirect to='/profile'/>
             }
             setTurn('white')
         }

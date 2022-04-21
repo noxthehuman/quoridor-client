@@ -1,0 +1,17 @@
+.profile {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    margin: 5vh 20vw;
+}
+
+.games-display {
+    display: flex;
+    justify-content: left;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+}

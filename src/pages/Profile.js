@@ -3,7 +3,7 @@ import { useEffect, useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { API_URL } from '../consts'
 import { AuthContext } from '../context/auth.context'
-
+import './Profile.css'
 
 const Profile = () => {
   const [userInfo, setUserInfo] = useState({})
@@ -29,22 +29,23 @@ const Profile = () => {
     }
     
   return (
-    <div>
-      <div>
+    <div className='profile'>
+      <div className='user-info'>
+        <h5> Profile </h5>
         <p> Username: {userInfo.username} </p>
         <p> Email: {userInfo.email} </p>
-      </div>
-        <Link to='/gamecreation'> Create new game </Link>
+        <p> <Link to='/gamecreation'> Create new game </Link> </p>
         <button onClick={deleteUser}> Delete Account </button>
+      </div>
 
-      <div>
+      <div >
         <h4> Games </h4>
-        <div>
+        <div className='games-display'>
           {gamesInfo.map((game) => {
             return (
               <div key={game.index}>
-                <p> {game.status} </p>
-                <p> Played by {game.white?.username} and {game.black?.username} </p>
+                <p> Status: {game.status} </p>
+                <p> Played by {game.white?.username || 'undefined'} and {game.black?.username || 'undefined'} </p>
                 <p> boardsize: {game.boardSize} walls: {game.walls} </p>
               </div>
             )

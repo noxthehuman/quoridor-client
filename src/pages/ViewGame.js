@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Board from '../components/Board'
 import './ViewGame.css'
 
 const ViewGame = () => {
   const [turn, setTurn] = useState('white')
-  const [startTime, setStartTime] = useState( (new Date()).getTime())
+  const startTime = useMemo(()=> new Date().getTime(), [])
   const [timeElapsed, setTimeElapsed] = useState(0)
   const [isActive, setIsActive] = useState(true)
 
@@ -36,13 +36,13 @@ const ViewGame = () => {
   useEffect(()=>{
       let timeoutId = setTimeout(() => {
         if(isActive) {
-          setTimeElapsed((new Date).getTime() - startTime)
+          setTimeElapsed(new Date().getTime() - startTime)
         }
       }, 300)
     if(!isActive) {
       clearTimeout(timeoutId)
     }
-  }, [isActive, timeElapsed])
+  }, [isActive, timeElapsed, startTime])
 
   return (
     <div>

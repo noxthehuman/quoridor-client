@@ -9,8 +9,8 @@ const HomePage = () => {
   return (
     <div className='homePage'>
     
-        <h1> QUORIDOR </h1>
         <div className='rules'>
+            <h1> QUORIDOR </h1>
             <ul>
                 <li> <h3> Rules </h3> </li>
                 <li> The goal of the game is to reach the opponent's base first.</li>
@@ -38,7 +38,7 @@ const HomePage = () => {
                     <Link to='/auth/login' className='link'> Log In</Link>
                  </button>
                 <button>
-                    <Link to='/auth/signup' className='link'> Sign In</Link>
+                    <Link to='/auth/signup' className='link'> Sign Up</Link>
                 </button>
             </>}
             

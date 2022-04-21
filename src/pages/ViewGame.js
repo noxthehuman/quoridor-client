@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import Board from '../components/Board'
+import './ViewGame.css'
 
 const ViewGame = () => {
   const [turn, setTurn] = useState('white')
@@ -45,9 +46,10 @@ const ViewGame = () => {
 
   return (
     <div>
-      <div className="game-specs">
-        <h1> {turn}'s turn </h1>
-        <p key={timeElapsed}> {hours}:{minutes}:{seconds} </p>
+      <div className="header">
+        <div className="time" key={timeElapsed}> {hours}:{minutes}:{seconds} </div>
+        <div className="turn"> <h1> {turn}'s turn </h1> </div>
+        <div className="walls">  </div>      
       </div>
         
         <div>

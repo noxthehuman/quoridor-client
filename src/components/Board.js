@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { API_URL } from "../consts"
 import Row from './Row';
 import HorizontalRow from './HorizontalRow';
+import WallsLeft from './WallsLeft';
 
 const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
     
@@ -14,12 +15,16 @@ const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
     const [posW, setPosW] = useState({x: null, y:null});
     const [order, setOrder] = useState(1);
     const [walls, setWalls] = useState([]);
-   
+    const [wallsW, setWallsW] = useState(0);
+    const [wallsB, setWallsB] = useState(0);
+
     useEffect(()=> {
         const getGame = async () => {
             const {data} = await axios.get(`${API_URL}/game/${gameId}`,
             { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` }});  
-            setBoardSize(data.boardSize)
+            setBoardSize(data.boardSize);
+            setWallsW(data.walls);
+            setWallsB(data.walls);
         }
         getGame()
     }, [])
@@ -30,8 +35,10 @@ const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
         
     }, [boardSize])
 
-
     const handleClick = async (x, y, type) => {
+
+        console.log("walls",wallsW)
+
         if (type === "space") { return };
        
         const moveData = {
@@ -53,7 +60,6 @@ const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
 
         console.log(type)
         if(type=== 'vertical') {
-            console.log("i create a wall here ", {x: x, y:y, type:'space'})
             setWalls([...walls, {x: x, y: y, type:'vertical'}, {x: x, y: y - 1, type:'vertical'}])
         }
         if(type==='horizontal') {
@@ -63,6 +69,8 @@ const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
         if(turn === 'white') {
             if (moveData.action === 'move'){
                 setPosW({x, y})
+            } else {
+                setWallsW(wallsW -1)
             }
             
             if(y === 0){
@@ -75,6 +83,8 @@ const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
         if(turn === 'black') {
             if (moveData.action === 'move'){
                 setPosB({x, y})
+            }  else {
+                setWallsB(wallsB -1)
             }
             if(y === boardSize - 1){
                 setIsActive = false
@@ -94,7 +104,6 @@ const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
     }
 
     const rows = []
-
     for(let i=0; i<boardSize; i++) {
         rows.push(<Row posB={posB} posW={posW} boardSize={boardSize} rowNumber={i} walls={walls} key={`${i}, row`} 
         handleClick={handleClick}/>)
@@ -104,12 +113,23 @@ const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
 
     return (
         <div className='board'>
-            <div className='grid' style={{ gridTemplateColumns: 
-             `repeat(${boardSize - 1}, 5fr 1fr) 5fr` , gridTemplateRows:
-            `repeat(${boardSize - 1}, 5fr 1fr) 5fr` }}>
-                {rows}
-            </div>
+        <div className='background'>
+        <div className='gridandwalls'>
+        <div className='wallsleft' 
+            style={{gridTemplateColumns: `repeat(${boardSize}, 1fr 4fr) 1fr`}}> 
+            <WallsLeft walls={wallsB} boardSize={boardSize}/></div>
+        <div className='grid' style={{
+            gridTemplateColumns: `repeat(${boardSize - 1}, 4fr 1fr) 4fr`, 
+            gridTemplateRows: `repeat(${boardSize - 1}, 4fr 1fr) 4fr`}}>
+            {rows}
         </div>
+        <div className='wallsleft' 
+            style={{gridTemplateColumns: `repeat(${boardSize}, 1fr 4fr) 1fr`}}> 
+            <WallsLeft walls={wallsW} boardSize={boardSize}/></div>
+        </div>
+        </div>
+        </div>
+
     )
 }
 

@@ -14,13 +14,15 @@
 
 .game-info {
     display: flex;
-    justify-items:space-around ;
+    justify-content: space-around;
     align-items: center;
+    border: 1px solid darkslategray;
     
 }
 
 .user-info {
     display: flex;
-    justify-items: space-around;
+    justify-content: space-around;
+    align-items: center;
     background-color: lightgray;
 }

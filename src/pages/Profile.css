@@ -1,17 +1,26 @@
 .profile {
     display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    margin: 5vh 20vw;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    margin: auto;
+    width: 95vw;
 }
 
 .games-display {
     display: flex;
-    justify-content: left;
+    flex-direction: column;
+}
+
+.game-info {
+    display: flex;
+    justify-items:space-around ;
+    align-items: center;
+    
 }
 
 .user-info {
     display: flex;
-    flex-direction: column;
-    justify-items: center;
+    justify-items: space-around;
+    background-color: lightgray;
 }

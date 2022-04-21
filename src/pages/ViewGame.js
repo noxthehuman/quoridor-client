@@ -5,7 +5,7 @@ const ViewGame = () => {
   const [turn, setTurn] = useState('white')
   const [startTime, setStartTime] = useState( (new Date()).getTime())
   const [timeElapsed, setTimeElapsed] = useState(0)
-  const isActive = true
+  const [isActive, setIsActive] = useState(true)
 
   
   const numberToString = (value) => {
@@ -52,7 +52,7 @@ const ViewGame = () => {
         
         <div>
           <Board turn={turn} setTurn={setTurn} seconds={seconds} minutes={minutes} 
-          hours={hours} isActive={isActive}/> 
+          hours={hours} setIsActive={setIsActive}/> 
         </div>
 
     </div>

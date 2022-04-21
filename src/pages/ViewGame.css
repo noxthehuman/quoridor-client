@@ -1,0 +1,10 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.time {
+    width: 10vw
+}
+

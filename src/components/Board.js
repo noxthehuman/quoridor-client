@@ -1,7 +1,7 @@
 import './Board.css'
 import axios from 'axios';
 import { useState, useEffect} from 'react';
-import { useParams, Navigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { API_URL } from "../consts"
 import Row from './Row';
 import HorizontalRow from './HorizontalRow';
@@ -17,6 +17,7 @@ const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
     const [walls, setWalls] = useState([]);
     const [wallsW, setWallsW] = useState(0);
     const [wallsB, setWallsB] = useState(0);
+    const navigate = useNavigate()
 
     useEffect(()=> {
         const getGame = async () => {
@@ -77,7 +78,7 @@ const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
                 setIsActive = false
                 await axios.put(`${API_URL}/game/${gameId}`, moveData,
                 { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } });
-                return <Navigate to='/profile'/>
+                navigate('/profile')
             }
             setTurn('black')
         }
@@ -91,7 +92,7 @@ const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
                 setIsActive = false
                 await axios.put(`${API_URL}/game/${gameId}`, moveData,
                 { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } });
-                return <Navigate to='/profile'/>
+                navigate('/profile')
             }
             setTurn('white')
         }

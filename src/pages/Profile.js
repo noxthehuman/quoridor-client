@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useEffect, useState, useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 import { API_URL } from '../consts'
 import { AuthContext } from '../context/auth.context'
 import './Profile.css'
@@ -30,23 +30,28 @@ const Profile = () => {
     
   return (
     <div className='profile'>
-      <div className='user-info'>
+      <button>
+        <Link to='/' className='link'> Home </Link>
+      </button>
         <h5> Profile </h5>
+      <div className='user-info'>
         <p> Username: {userInfo.username} </p>
         <p> Email: {userInfo.email} </p>
-        <p> <Link to='/gamecreation'> Create new game </Link> </p>
+        <p> <Link to='/gamecreation' className='link'> Create new game </Link> </p>
         <button onClick={deleteUser}> Delete Account </button>
       </div>
+      <Outlet />
 
       <div >
         <h4> Games </h4>
         <div className='games-display'>
           {gamesInfo.map((game) => {
             return (
-              <div key={game.index}>
-                <p> Status: {game.status} </p>
-                <p> Played by {game.white?.username || 'undefined'} and {game.black?.username || 'undefined'} </p>
-                <p> boardsize: {game.boardSize} walls: {game.walls} </p>
+              <div key={game.index} className='game-info'>
+                <p> Status: {game.status !== 'pending' ? game.status + ' won' : 'pending'}</p>
+                <p> Duration: {game.duration} </p>
+                <p> White: {game.white?.username || 'user deleted'} Black: {game.black?.username || 'undefined'} </p>
+                <p> Boardsize: {game.boardSize} Walls: {game.walls} </p>
               </div>
             )
           })}

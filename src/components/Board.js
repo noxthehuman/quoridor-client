@@ -7,7 +7,7 @@ import Row from './Row';
 import HorizontalRow from './HorizontalRow';
 import WallsLeft from './WallsLeft';
 
-const Board = ({turn, setTurn, isActive, seconds, minutes, hours}) => {
+const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
     
     const { gameId } = useParams()
     const [boardSize, setBoardSize] = useState(0)
@@ -74,7 +74,7 @@ const Board = ({turn, setTurn, isActive, seconds, minutes, hours}) => {
             }
             
             if(y === 0){
-                isActive = false
+                setIsActive = false
                 await axios.put(`${API_URL}/game/${gameId}`, moveData,
                 { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } });
             }
@@ -87,9 +87,10 @@ const Board = ({turn, setTurn, isActive, seconds, minutes, hours}) => {
                 setWallsB(wallsB -1)
             }
             if(y === boardSize - 1){
-                isActive = false
+                setIsActive = false
                 await axios.put(`${API_URL}/game/${gameId}`, moveData,
                 { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } })
+                
             }
             setTurn('white')
         }

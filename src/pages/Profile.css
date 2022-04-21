@@ -15,7 +15,7 @@
 .game-info {
     display: flex;
     justify-content: space-around;
-    align-items: center;
+    align-content: center;
     border: 1px solid darkslategray;
     
 }
@@ -23,6 +23,6 @@
 .user-info {
     display: flex;
     justify-content: space-around;
-    align-items: center;
+    align-content: center;
     background-color: lightgray;
 }

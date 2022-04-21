@@ -1,7 +1,7 @@
 import './Board.css'
 import axios from 'axios';
 import { useState, useEffect} from 'react';
-import { useParams, Redirect } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 import { API_URL } from "../consts"
 import Row from './Row';
 import HorizontalRow from './HorizontalRow';
@@ -77,7 +77,7 @@ const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
                 setIsActive = false
                 await axios.put(`${API_URL}/game/${gameId}`, moveData,
                 { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } });
-                return <Redirect to='/profile'/>
+                return <Navigate to='/profile'/>
             }
             setTurn('black')
         }
@@ -91,7 +91,7 @@ const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
                 setIsActive = false
                 await axios.put(`${API_URL}/game/${gameId}`, moveData,
                 { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } });
-                return <Redirect to='/profile'/>
+                return <Navigate to='/profile'/>
             }
             setTurn('white')
         }

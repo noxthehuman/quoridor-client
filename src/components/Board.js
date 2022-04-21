@@ -6,7 +6,7 @@ import { API_URL } from "../consts"
 
 const Board = ({turn, setTurn}) => {
 
-    const boardSize = 9;
+    const boardSize = 7;
     const nbElements = boardSize * (2 * boardSize - 1);
     const tiles = [...Array(nbElements + 1).keys()].splice(1)
     const [posB, setPosB] = useState(~~(boardSize / 2) + 1);

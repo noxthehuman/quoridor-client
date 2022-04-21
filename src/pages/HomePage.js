@@ -8,13 +8,6 @@ const HomePage = () => {
 
   return (
     <div className='homePage'>
-
-
-
-
-
-
-
     
         <h1> QUORIDOR </h1>
         <div className='rules'>

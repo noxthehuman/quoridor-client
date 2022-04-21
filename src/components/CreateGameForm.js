@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { API_URL } from '../consts'
+import '../pages/LogInSignup.css'
 
 const CreateGameForm = () => {
     const [username, setUsername] = useState('')
@@ -34,7 +35,7 @@ const CreateGameForm = () => {
 
   return (
     <div>
-        <form onSubmit={createGame}>
+        <form onSubmit={createGame} className='form'>
         <label htmlFor='boardSize'> Board Size </label>
             <select onChange={handleBoard}>
                 <option value='9'> 9 x 9 </option>

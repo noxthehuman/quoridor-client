@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { API_URL } from '../consts'
+import './LogInSignup.css'
 
 const SignUp = () => {
   const [username, setUsername] = useState('')
@@ -39,7 +40,7 @@ const SignUp = () => {
     <div className="SignupPage">
       <h1>Sign Up</h1>
 
-      <form onSubmit={handleSignupSubmit}>
+      <form onSubmit={handleSignupSubmit} className='form'>
         <label>Username:</label>
         <input
           type="text"
@@ -69,8 +70,10 @@ const SignUp = () => {
 
       {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-      <p>Already have account?</p>
-      <Link to={'/auth/login'}> Login</Link>
+      <div className='go-login'>
+        <p>Already have account?</p>
+        <Link to={'/auth/login'}> Login</Link>
+      </div>
     </div>
   )
 }

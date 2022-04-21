@@ -102,10 +102,12 @@ const Board = ({turn, setTurn, isActive, seconds, minutes, hours}) => {
     }
 
     return (
-        <div className='grid' style={{ gridTemplateColumns: 
-        `repeat(${boardSize - 1}, 5fr 11f) 5fr` , gridTemplateRows:
-         `repeat(${boardSize - 1}, 5fr 11f) 5fr` }}>
-            {rows}
+        <div className='board'>
+            <div className='grid' style={{ gridTemplateColumns: 
+             `repeat(${boardSize - 1}, 5fr 1fr) 5fr` , gridTemplateRows:
+            `repeat(${boardSize - 1}, 5fr 1fr) 5fr` }}>
+                {rows}
+            </div>
         </div>
     )
 }

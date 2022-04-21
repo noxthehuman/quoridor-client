@@ -7,7 +7,6 @@ const AuthContext = createContext()
 function AuthProviderWrapper(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-  const [isAdmin, setIsAdmin] = useState(true)
   const [user, setUser] = useState(null)
 
   /* 
@@ -39,11 +38,8 @@ function AuthProviderWrapper(props) {
           // If the server verifies that JWT is valid
           const user = response.data
           // Update state variables
-          setIsLoggedIn(true)
-          if (user.roles?.admin) {
-            setIsAdmin(true)
-          }
           setIsLoading(false)
+          setIsLoggedIn(true)
           setUser(user)
         })
         .catch((error) => {

@@ -8,19 +8,23 @@ const HomePage = () => {
 
   return (
     <div className='homePage'>
+
+
+
+
+
+
+
     
         <h1> QUORIDOR </h1>
         <div className='rules'>
             <ul>
                 <li> <h3> Rules </h3> </li>
-                <li> Reach the first line opposite to yours to win the game</li>
-                <li>The pawns are moved one square at a time, horizontally or vertically, forwards or 
-                    backwards </li>
-                <li> You can either chose to put up a wall to disadventage your opponent or move your pawn.
-                    But keep in mind that all the fences will block you as well as your opponent so place them carefuly </li>
-                <li> Each wall takes up two blocks at a time horizontaly or verticaly </li>
-                <li> If you get stuck in front of your opponent, you can jump over them to get to the the square behind them
-                    as well as jump sideways to their side </li>
+                <li> The goal of the game is to reach the opponent's base first.</li>
+                <li> Each player in turn, chooses to move his pawn or to put one of his walls.</li>
+                <li> The pawns are moved one square at a time, horizontally or vertically, forwards or backwards </li>
+                <li> Each wall takes two horizontal or vertical blocks. However, an acess to the goal line must always be left open.</li>
+                <li>You can jump the opponent’s pawn, or go sideways if there is a wall behind.</li>
             </ul>
         </div>
 
@@ -30,7 +34,7 @@ const HomePage = () => {
                     <Link to='/profile' className='link'> Profile</Link>
                 </button>
                 <button>
-                    <Link to='/gamecreation'className='link'> Create Game </Link>
+                    <Link to='/gamecreation' className='link'> Create Game </Link>
                 </button>
                 <button onClick={logOutUser}>
                  Log Out

@@ -1,7 +1,6 @@
 import CreateGameForm from '../components/CreateGameForm'
 
 const CreateGame = () => {
-    
 
   return (
     <div>

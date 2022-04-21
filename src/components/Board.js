@@ -53,6 +53,7 @@ const Board = ({turn, setTurn, isActive, seconds, minutes, hours}) => {
 
         console.log(type)
         if(type=== 'vertical') {
+            console.log("i create a wall here ", {x: x, y:y, type:'space'})
             setWalls([...walls, {x: x, y: y, type:'vertical'}, {x: x, y: y - 1, type:'vertical'}])
         }
         if(type==='horizontal') {
@@ -66,7 +67,7 @@ const Board = ({turn, setTurn, isActive, seconds, minutes, hours}) => {
             
             if(y === 0){
                 isActive = false
-                const {data} = await axios.put(`${API_URL}/game/${gameId}`, moveData,
+                await axios.put(`${API_URL}/game/${gameId}`, moveData,
                 { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } });
             }
             setTurn('black')
@@ -77,7 +78,7 @@ const Board = ({turn, setTurn, isActive, seconds, minutes, hours}) => {
             }
             if(y === boardSize - 1){
                 isActive = false
-                const {data} = await axios.put(`${API_URL}/game/${gameId}`, makeMoveData,
+                await axios.put(`${API_URL}/game/${gameId}`, moveData,
                 { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } })
             }
             setTurn('white')
@@ -102,9 +103,9 @@ const Board = ({turn, setTurn, isActive, seconds, minutes, hours}) => {
 
     return (
         <div className='grid' style={{ gridTemplateColumns: 
-        `repeat(${boardSize - 1}, 60px 15px) 60px` , gridTemplateRows:
-         `repeat(${boardSize - 1}, 60px 15px) 60px` }}>
-             {rows}
+        `repeat(${boardSize - 1}, 5fr 11f) 5fr` , gridTemplateRows:
+         `repeat(${boardSize - 1}, 5fr 11f) 5fr` }}>
+            {rows}
         </div>
     )
 }

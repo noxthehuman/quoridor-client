@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { AuthContext } from '../context/auth.context'
 import { API_URL } from '../consts'
+import './LogInSignup.css'
 
 const LogIn = () => {
   const { storeToken, authenticateUser } = useContext(AuthContext)
@@ -27,7 +28,6 @@ const LogIn = () => {
     axios
       .post(`${API_URL}/auth/login`, requestBody)
       .then((response) => {
-        console.log('JWT RETURNED', response.data)
 
         storeToken(response.data.authToken)
         authenticateUser()
@@ -44,7 +44,7 @@ const LogIn = () => {
     <div className="LoginPage">
       <h1>Login</h1>
 
-      <form onSubmit={handleLoginSubmit}>
+      <form onSubmit={handleLoginSubmit} className='form'>
         <label>Username:</label>
         <input
           type="text"

@@ -1,0 +1,30 @@
+.SignupPage, .LoginPage, .form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 30vw;
+    margin: auto;
+}
+
+input {
+    text-align: center;
+    height: 20px;
+    font-size: large;
+    margin: auto;
+}
+
+label {
+    font-size: large;
+}
+
+.go-login {
+    text-decoration: none;
+    align-content: center;
+    justify-content: center;
+}
+
+button {
+    width: 100px;
+}

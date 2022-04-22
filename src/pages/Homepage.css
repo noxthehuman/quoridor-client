@@ -27,5 +27,5 @@
 .buttons-homepage button {
     margin: 40px;
     width: 100px;
-    height: 30px;
+    height: fit-content;
 }

@@ -14,13 +14,24 @@
 
 .game-info {
     display: flex;
-    justify-items:space-around ;
-    align-items: center;
-    
+    justify-content: space-around;
+    align-content: center;
+    border: 1px solid darkslategray;
+    margin: 2vh 0;
+}
+
+.game-info:nth-child(even) {
+    background-color: lightgray;
 }
 
 .user-info {
     display: flex;
-    justify-items: space-around;
+    justify-content: space-around;
+    align-content: center;
     background-color: lightgray;
+}
+
+.user-info button {
+    height: fit-content;
+    width: 100px;
 }

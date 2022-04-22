@@ -1,7 +1,7 @@
 import './Board.css'
 import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect} from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { API_URL } from "../consts"
 import Row from './Row';
 import HorizontalRow from './HorizontalRow';
@@ -17,6 +17,7 @@ const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
     const [walls, setWalls] = useState([]);
     const [wallsW, setWallsW] = useState(0);
     const [wallsB, setWallsB] = useState(0);
+    const navigate = useNavigate()
 
     useEffect(()=> {
         const getGame = async () => {
@@ -37,8 +38,6 @@ const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
 
     const handleClick = async (x, y, type) => {
 
-        console.log("walls",wallsW)
-
         if (type === "space") { return };
        
         const moveData = {
@@ -58,7 +57,6 @@ const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
             return
         }
 
-        console.log(type)
         if(type=== 'vertical') {
             setWalls([...walls, {x: x, y: y, type:'vertical'}, {x: x, y: y - 1, type:'vertical'}])
         }
@@ -77,6 +75,7 @@ const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
                 setIsActive = false
                 await axios.put(`${API_URL}/game/${gameId}`, moveData,
                 { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } });
+                return navigate('/profile')
             }
             setTurn('black')
         }
@@ -89,8 +88,8 @@ const Board = ({turn, setTurn, setIsActive, seconds, minutes, hours}) => {
             if(y === boardSize - 1){
                 setIsActive = false
                 await axios.put(`${API_URL}/game/${gameId}`, moveData,
-                { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } })
-                
+                { headers: { Authorization: `Bearer ${localStorage.getItem('authToken')}` } });
+                return navigate('/profile')
             }
             setTurn('white')
         }

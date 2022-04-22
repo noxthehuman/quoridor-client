@@ -16,8 +16,8 @@ const HomePage = () => {
                 <li> The goal of the game is to reach the opponent's base first.</li>
                 <li> Each player in turn, chooses to move his pawn or to put one of his walls.</li>
                 <li> The pawns are moved one square at a time, horizontally or vertically, forwards or backwards </li>
+                <li> You can jump the opponent’s pawn, or go sideways if there is a wall behind.</li>
                 <li> Each wall takes two horizontal or vertical blocks. However, an acess to the goal line must always be left open.</li>
-                <li>You can jump the opponent’s pawn, or go sideways if there is a wall behind.</li>
             </ul>
         </div>
 
